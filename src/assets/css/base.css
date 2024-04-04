@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap');
+
+:root {
+  /* colors */
+  --kl-black: #343a40;
+  --kl-white: #fff;
+  --kl-success: #28a745;
+  --kl-warning: #ffc707;
+  --kl-error: #dc3545;
+
+  /* dimensions */
+  --kl-tile-size: 16rem
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--kl-black);
+  background: var(--kl-white);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  /* line-height: 1.6; */
+  font-family:
+    Open Sans,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* color  classes */
+.success {
+  background: var(--kl-success);
+}
+.warning {
+  background: var(--kl-warning);
+}
+.error {
+  background: var(--kl-error);
+}
+.dark {
+  background: var(--kl-black);
+}

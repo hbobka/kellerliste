@@ -1,0 +1,55 @@
+.logo-kellerliste {
+  mask: url('@/assets/images/logo-kellerliste.svg') center / 3rem no-repeat;
+  -webkit-mask: url('@/assets/images/logo-kellerliste.svg') center / 3rem no-repeat;
+  padding: 1.5rem;
+  background: var(--kl-white);
+}
+
+.fa-user {
+  mask: url('@/assets/images/fa-user.svg') center / 2rem no-repeat;
+  -webkit-mask: url('@/assets/images/fa-user.svg') center / 2rem no-repeat;
+  padding: 1rem;
+  background: var(--kl-white);
+}
+
+.fa-bottle-droplet {
+  mask: url('@/assets/images/fa-bottle-droplet.svg') center / 8rem no-repeat;
+  -webkit-mask: url('@/assets/images/fa-bottle-droplet.svg') center / 8rem no-repeat;
+  padding: 4rem;
+  background: var(--kl-black);
+}
+
+.fa-utensils {
+  mask: url('@/assets/images/fa-utensils.svg') center / 8rem no-repeat;
+  -webkit-mask: url('@/assets/images/fa-utensils.svg') center / 8rem no-repeat;
+  padding: 4rem;
+  background: var(--kl-black);
+}
+
+.fa-briefcase-medical {
+  mask: url('@/assets/images/fa-briefcase-medical.svg') center / 8rem no-repeat;
+  -webkit-mask: url('@/assets/images/fa-briefcase-medical.svg') center / 8rem no-repeat;
+  padding: 4rem;
+  background: var(--kl-black);
+}
+
+.fa-screwdriver-wrench {
+  mask: url('@/assets/images/fa-screwdriver-wrench.svg') center / 8rem no-repeat;
+  -webkit-mask: url('@/assets/images/fa-screwdriver-wrench.svg') center / 8rem no-repeat;
+  padding: 4rem;
+  background: var(--kl-black);
+}
+
+.fa-fire {
+  mask: url('@/assets/images/fa-fire.svg') center / 8rem no-repeat;
+  -webkit-mask: url('@/assets/images/fa-fire.svg') center / 8rem no-repeat;
+  padding: 4rem;
+  background: var(--kl-black);
+}
+
+.fa-plus {
+  mask: url('@/assets/images/fa-plus.svg') center / 8rem no-repeat;
+  -webkit-mask: url('@/assets/images/fa-plus.svg') center / 8rem no-repeat;
+  padding: 4rem;
+  background: var(--kl-white);
+}
