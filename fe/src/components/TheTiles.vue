@@ -9,7 +9,7 @@ import TileItem from '@/components/TileItem.vue'
     <TileItem icon="fa-screwdriver-wrench" text="Werkzeug" status="error" />
     <TileItem icon="fa-briefcase-medical" text="Medizin" status="error" />
     <TileItem icon="fa-fire" text="Feuermittel" status="warning" />
-    <TileItem icon="fa-plus" status="new" />
+    <TileItem icon="fa-plus" text="Hinzufügen" status="new" />
   </div>
 </template>
 
