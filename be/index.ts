@@ -5,16 +5,16 @@ import { App, Stack, RemovalPolicy } from 'aws-cdk-lib';
 import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { join } from 'path'
 
-export class KellerlisteStack extends Stack {
+export class ApiLambdaCrudDynamoDBStack extends Stack {
   constructor(app: App, id: string) {
     super(app, id);
 
-    const dynamoTable = new Table(this, 'kellerliste-hebo', {
+    const dynamoTable = new Table(this, 'kellerliste', {
       partitionKey: {
-        name: 'itemId',
+        name: 'userId',
         type: AttributeType.STRING
       },
-      tableName: 'kellerliste-hebo',
+      tableName: 'kellerliste',
 
       /**
        *  The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
@@ -32,7 +32,7 @@ export class KellerlisteStack extends Stack {
       },
       depsLockFilePath: join(__dirname, 'lambdas', 'package-lock.json'),
       environment: {
-        PRIMARY_KEY: 'itemId',
+        PRIMARY_KEY: 'userId',
         TABLE_NAME: dynamoTable.tableName,
       },
       runtime: Runtime.NODEJS_20_X,
@@ -127,5 +127,5 @@ export function addCorsOptions(apiResource: IResource) {
 }
 
 const app = new App();
-new KellerlisteStack(app, 'KellerlisteStack');
+new ApiLambdaCrudDynamoDBStack(app, 'ApiLambdaCrudDynamoDBExample');
 app.synth();
