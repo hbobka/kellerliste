@@ -4,9 +4,11 @@ import { type PropType } from 'vue'
 import { useRouter } from 'vue-router'
 
 type TileStatus = 'success' | 'warning' | 'error' | 'new'
+export type TileCategory = 'beverages' | 'food' | 'tools' | 'medicine' | 'fire' | 'custom' | 'new'
 const props = defineProps({
   icon: String,
   text: String,
+  category: String as PropType<TileCategory>,
   status: String as PropType<TileStatus>
 })
 
@@ -15,18 +17,16 @@ const textStyle = computed(() =>
     ? 'color: var(--kl-white)'
     : 'color: var(--kl-black)'
 )
-
 const iconStyle = computed(() =>
   props.status === 'success' || props.status === 'error' || props.status === 'new'
     ? 'background: var(--kl-white)'
     : 'background: var(--kl-black)'
 )
-
 const tileStyle = computed(() => (props.status !== 'new' ? props.status : 'dark'))
 
 const router = useRouter()
 const openDetails = () => {
-  router.push('details')
+  router.push({ name: 'details', query: { category: props.category } })
 }
 </script>
 

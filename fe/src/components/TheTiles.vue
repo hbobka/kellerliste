@@ -4,12 +4,12 @@ import TileItem from '@/components/TileItem.vue'
 
 <template>
   <div class="category-wrapper">
-    <TileItem icon="fa-bottle-droplet" text="Getränke" status="success" />
-    <TileItem icon="fa-utensils" text="Lebensmittel" status="warning" />
-    <TileItem icon="fa-screwdriver-wrench" text="Werkzeug" status="error" />
-    <TileItem icon="fa-briefcase-medical" text="Medizin" status="error" />
-    <TileItem icon="fa-fire" text="Feuermittel" status="warning" />
-    <TileItem icon="fa-plus" text="Hinzufügen" status="new" />
+    <TileItem icon="fa-bottle-droplet" text="Getränke" status="success" category="beverages"/>
+    <TileItem icon="fa-utensils" text="Lebensmittel" status="warning" category="food"/>
+    <TileItem icon="fa-screwdriver-wrench" text="Werkzeug" status="error" category="tools"/>
+    <TileItem icon="fa-briefcase-medical" text="Medizin" status="error" category="medicine"/>
+    <TileItem icon="fa-fire" text="Feuermittel" status="warning" category="fire"/>
+    <TileItem icon="fa-plus" text="Hinzufügen" status="new" category="new"/>
   </div>
 </template>
 
