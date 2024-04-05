@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '@/components/TheTiles.vue'
+import TheTiles from '@/components/TheTiles.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <TheTiles />
   </main>
 </template>
