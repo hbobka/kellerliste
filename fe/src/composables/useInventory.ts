@@ -12,7 +12,7 @@ interface Inventory {
   medicine: Item[]
   fire: Item[]
   tools: Item[]
-  custom?: Item[]
+  custom: Item[]
 }
 
 const stateInventory = ref<Inventory>({
@@ -20,7 +20,8 @@ const stateInventory = ref<Inventory>({
   food: [],
   medicine: [],
   fire: [],
-  tools: []
+  tools: [],
+  custom: []
 })
 
 export const useInventory = () => {
@@ -31,10 +32,19 @@ export const useInventory = () => {
         throw new Error('Network response was not ok')
       }
       const data = await response.json()
-      console.log(data)
+      setInventory(data.inventory)
     } catch (error) {
       console.error('Error:', error)
     }
+  }
+
+  const setInventory = (inventory: Inventory) => {
+    stateInventory.value.beverages = inventory.beverages
+    stateInventory.value.food = inventory.food
+    stateInventory.value.medicine = inventory.medicine
+    stateInventory.value.fire = inventory.fire
+    stateInventory.value.tools = inventory.tools
+    stateInventory.value.custom = inventory.custom
   }
 
   return {
