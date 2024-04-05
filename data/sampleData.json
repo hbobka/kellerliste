@@ -1,0 +1,115 @@
+{
+  "userEmail": "jon.doe@gmail.com",
+  "userSettings": {
+    "theme": "default",
+    "language": "de",
+    "pushNotifications": false
+  },
+  "inventory": {
+    "beverages": [
+      {
+        "name": "Wasser",
+        "amount": "100 l"
+      },
+      {
+        "name": "Wein",
+        "amount": "10 l"
+      },
+      {
+        "name": "whiskey",
+        "amount": "10 l"
+      },
+      {
+        "name": "Apfelsaft",
+        "amount": "10 l",
+        "date": "01.01.2025"
+      }
+    ],
+    "food": [
+      {
+        "name": "Dosen Tomaten",
+        "amount": "10",
+        "date": "01.01.2026"
+      },
+      {
+        "name": "Dosen Eintöpfe",
+        "amount": "10",
+        "date": "01.01.2026"
+      },
+      {
+        "name": "Thunfischdosen",
+        "amount": "10",
+        "date": "01.01.2026"
+      }
+    ],
+    "medicine": [
+      {
+        "name": "Ibu Profen",
+        "amount": "100",
+        "date": "01.01.2030"
+      },
+      {
+        "name": "Vitamin D3",
+        "amount": "10",
+        "date": "01.01.2030"
+      },
+      {
+        "name": "Mull Binden",
+        "amount": "10"
+      }
+    ],
+    "fire": [
+      {
+        "name": "Feuerzeug",
+        "amount": "5"
+      },
+      {
+        "name": "Camping Grill (Gas)",
+        "amount": "1"
+      },
+      {
+        "name": "Gaskartusche",
+        "amount": "1"
+      }
+    ],
+    "tools": [
+      {
+        "name": "Bohrmaschine",
+        "amount": "1"
+      },
+      {
+        "name": "Werkzeugkoffer",
+        "amount": "1"
+      },
+      {
+        "name": "Stichsäge",
+        "amount": "1"
+      }
+    ],
+    "custom": [
+      {
+        "Fahrrad Zubehör": [
+          {
+            "name": "Luftpumpe",
+            "amount": "1"
+          },
+          {
+            "name": "Schlauch 26\"",
+            "amount": "1"
+          }
+        ],
+        "Camping": [
+          {
+            "name": "Zelt",
+            "amount": "1"
+          },
+          {
+            "name": "Campingstuhl",
+            "amount": "1"
+          }
+        ]
+      }
+    ]
+  }
+}
+
