@@ -12,7 +12,14 @@ export const handler = async (): Promise<any> => {
 
   try {
     const response = await db.scan(params);
-    return { statusCode: 200, body: JSON.stringify(response.Items) };
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: JSON.stringify(response.Items),
+    };
   } catch (dbError) {
     return { statusCode: 500, body: JSON.stringify(dbError) };
   }

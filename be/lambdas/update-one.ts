@@ -44,7 +44,14 @@ export const handler = async (event: any = {}): Promise<any> => {
 
   try {
     await db.update(params);
-    return { statusCode: 204, body: "" };
+    return {
+      statusCode: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: "",
+    };
   } catch (dbError: any) {
     const errorResponse =
       dbError.code === "ValidationException" && dbError.message.includes("reserved keyword")

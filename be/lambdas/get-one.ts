@@ -22,7 +22,14 @@ export const handler = async (event: any = {}): Promise<any> => {
   try {
     const response = await db.get(params);
     if (response.Item) {
-      return { statusCode: 200, body: JSON.stringify(response.Item) };
+      return {
+        statusCode: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify(response.Item),
+      };
     } else {
       return { statusCode: 404 };
     }

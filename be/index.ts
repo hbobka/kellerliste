@@ -11,7 +11,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
 
     const dynamoTable = new Table(this, 'kellerliste', {
       partitionKey: {
-        name: 'userId',
+        name: 'userEmail',
         type: AttributeType.STRING
       },
       tableName: 'kellerliste',
@@ -32,7 +32,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       },
       depsLockFilePath: join(__dirname, 'lambdas', 'package-lock.json'),
       environment: {
-        PRIMARY_KEY: 'userId',
+        PRIMARY_KEY: 'userEmail',
         TABLE_NAME: dynamoTable.tableName,
       },
       runtime: Runtime.NODEJS_20_X,

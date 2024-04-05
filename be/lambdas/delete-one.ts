@@ -9,7 +9,14 @@ const db = DynamoDBDocument.from(new DynamoDB());
 export const handler = async (event: any = {}): Promise<any> => {
   const requestedItemId = event.pathParameters.id;
   if (!requestedItemId) {
-    return { statusCode: 400, body: `Error: You are missing the path parameter id` };
+    return {
+      statusCode: 400,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: `Error: You are missing the path parameter id`,
+    };
   }
 
   const params = {
