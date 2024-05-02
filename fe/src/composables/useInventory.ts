@@ -1,4 +1,5 @@
 import { readonly, ref } from 'vue'
+import { useAuth } from './useAuth'
 
 interface Item {
   name: string
@@ -25,14 +26,26 @@ const stateInventory = ref<Inventory>({
 })
 
 export const useInventory = () => {
+  const { stateAuth } = useAuth()
+
   const getInventory = async () => {
+    if (!stateAuth.value.idToken) {
+      return
+    }
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/items/jon.doe@gmail.com`)
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_GATEWAY_URL}/prod/items/${stateAuth.value.userEmail}`,
+        {
+          headers: {
+            Authorization: `Bearer ${stateAuth.value.idToken}`
+          }
+        }
+      )
+      if (response.ok) {
+        const data = await response.json()
+        setInventory(data.inventory)
       }
-      const data = await response.json()
-      setInventory(data.inventory)
     } catch (error) {
       console.error('Error:', error)
     }
@@ -48,7 +61,7 @@ export const useInventory = () => {
   }
 
   return {
-    stateInventory: readonly(stateInventory),
-    getInventory
+    getInventory,
+    stateInventory: readonly(stateInventory)
   }
 }
