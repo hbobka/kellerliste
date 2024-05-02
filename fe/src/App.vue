@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { useInventory } from '@/composables/useInventory'
 import TheAppHeader from '@/components/TheAppHeader.vue'
+import { useAuth } from '@/composables/useAuth'
+import { onUnmounted } from 'vue'
 
-const { getInventory } = useInventory()
-onMounted(() => {
-  getInventory()
+const { resetAuth } = useAuth()
+
+onUnmounted(() => {
+  resetAuth()
 })
 </script>
 

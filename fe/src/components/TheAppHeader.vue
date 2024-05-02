@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuth } from '@/composables/useAuth'
 
+const { stateAuth, logout } = useAuth()
 const router = useRouter()
+
 const goHome = () => {
   router.push({ name: 'home' })
 }
+const userName = computed(() => stateAuth.value.userName)
+const isLoggedIn = computed(() => stateAuth.value.isLoggedIn)
 </script>
 
 <template>
@@ -13,7 +19,10 @@ const goHome = () => {
       <i class="logo-kellerliste"></i>
       <p>kellerliste</p>
     </div>
-    <i class="fa-user"></i>
+    <div v-if="isLoggedIn" class="user-wrapper">
+      <span>{{ userName }} / <a href="#" @click="logout">logout</a></span>      
+      <i class="fa-user"></i>
+    </div>
   </header>
 </template>
 
@@ -31,7 +40,12 @@ header {
   z-index: 1000;
 }
 
-.logo-wrapper {
+header * {
+  color: var(--kl-white);
+}
+
+.logo-wrapper,
+.user-wrapper {
   display: flex;
 }
 
@@ -39,6 +53,10 @@ header {
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 2rem;
   margin-top: 0.4rem;
+}
+
+.user-wrapper span {  
+  margin: 0.25rem 1rem 0 0;
 }
 
 .logo-wrapper:hover {
