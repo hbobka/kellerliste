@@ -11,3 +11,8 @@ const app = createApp(App)
 app.use(router)
 app.use(PrimeVue)
 app.mount('#app')
+
+window.addEventListener('beforeunload', () => {
+  sessionStorage.clear()
+  console.log('Window is unloading...')
+})
