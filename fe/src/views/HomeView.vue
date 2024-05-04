@@ -5,11 +5,12 @@ import { useUI } from '@/composables/useUI'
 import { onMounted } from 'vue'
 
 const { getInventory } = useInventory()
-const { stateUI } = useUI()
+const { stateUI, setWasInventoryFetched } = useUI()
 
 onMounted(async () => {
   if (!stateUI.value.wasInventoryFetched) {
     await getInventory()
+    setWasInventoryFetched(true)
   }
 })
 </script>
