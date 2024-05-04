@@ -6,6 +6,7 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { klTheme } from '@/utils/theme'
+import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import 'vuetify/styles'
 import '@/assets/css/main.css'
 
@@ -13,6 +14,9 @@ import '@/assets/css/main.css'
 const vuetify = createVuetify({
   components,
   directives,
+  icons: {
+    defaultSet: 'mdi'
+  },
   theme: {
     defaultTheme: 'klTheme',
     themes: {
