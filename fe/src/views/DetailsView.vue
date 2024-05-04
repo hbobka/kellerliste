@@ -21,12 +21,27 @@ const inventoryItems = computed(() => {
     ? stateInventory.value[category.value as keyof typeof stateInventory.value]
     : []
 })
+
+const showNewRow = ref(false)
+const addRow = () => {
+  showNewRow.value = true
+}
+const cancel = () => {
+  showNewRow.value = false
+}
 </script>
 
 <template>
   <main>
     <!-- toolbar -->
-    <InventoryToolbar v-if="category" :category="category" />
+    <InventoryToolbar v-if="category" :category="category" @add-row="addRow()" @cancel="cancel()" />
+
+    <!-- add new row -->
+    <ul v-if="showNewRow">
+      <li>
+        <InventoryItem current-name="" current-amount="" current-date="" />
+      </li>
+    </ul>
 
     <!-- list -->
     <ul v-if="inventoryItems">
