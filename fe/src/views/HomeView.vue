@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import TheTiles from '@/components/TheTiles.vue'
 import { useInventory } from '@/composables/useInventory'
+import { useUI } from '@/composables/useUI'
 import { onMounted } from 'vue'
 
 const { getInventory } = useInventory()
-onMounted(() => {
-  // TODO: call only once
-  getInventory()
+const { stateUI } = useUI()
+
+onMounted(async () => {
+  if (!stateUI.value.wasInventoryFetched) {
+    await getInventory()
+  }
 })
 </script>
 

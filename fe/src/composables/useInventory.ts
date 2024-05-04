@@ -1,13 +1,8 @@
 import { readonly, ref } from 'vue'
 import { useAuth } from './useAuth'
+import type { Category, Item } from '@/utils/types'
 
-interface Item {
-  name: string
-  amount: string
-  date?: string
-}
-
-interface Inventory {
+interface InventoryState {
   beverages: Item[]
   food: Item[]
   medicine: Item[]
@@ -16,7 +11,7 @@ interface Inventory {
   custom: Item[]
 }
 
-const stateInventory = ref<Inventory>({
+const stateInventory = ref<InventoryState>({
   beverages: [],
   food: [],
   medicine: [],
@@ -25,6 +20,9 @@ const stateInventory = ref<Inventory>({
   custom: []
 })
 
+/**
+ * holds all inventory functionalities
+ */
 export const useInventory = () => {
   const { stateAuth } = useAuth()
 
@@ -34,24 +32,51 @@ export const useInventory = () => {
     }
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_APP_API_GATEWAY_URL}/prod/items/${stateAuth.value.userEmail}`,
-        {
-          headers: {
-            Authorization: `Bearer ${stateAuth.value.idToken}`
-          }
+      const url = `${import.meta.env.VITE_APP_API_GATEWAY_URL}/${import.meta.env.VITE_APP_API_GATEWAY_STAGE}`
+      const response = await fetch(`${url}/items/${stateAuth.value.userEmail}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${stateAuth.value.idToken}`
         }
-      )
+      })
+
       if (response.ok) {
         const data = await response.json()
         setInventory(data.inventory)
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error('getInventory failed: ', error)
     }
   }
 
-  const setInventory = (inventory: Inventory) => {
+  const createInventoryItem = async (item: Item, category: Category) => {
+    if (!stateAuth.value.idToken) {
+      return
+    }
+
+    try {
+      const userEmail = stateAuth.value.userEmail
+      const url = `${import.meta.env.VITE_APP_API_GATEWAY_URL}/${import.meta.env.VITE_APP_API_GATEWAY_STAGE}`
+      const response = await fetch(`${url}/items`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${stateAuth.value.idToken}`
+        },
+        body: JSON.stringify({ userEmail, item, category })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to create item')
+      }
+      // update the inventory after creating the item
+      await getInventory()
+    } catch (error) {
+      console.error('Failed to create item:', error)
+    }
+  }
+
+  const setInventory = (inventory: InventoryState) => {
     stateInventory.value.beverages = inventory.beverages
     stateInventory.value.food = inventory.food
     stateInventory.value.medicine = inventory.medicine
@@ -62,6 +87,7 @@ export const useInventory = () => {
 
   return {
     getInventory,
+    createInventoryItem,
     stateInventory: readonly(stateInventory)
   }
 }

@@ -1,18 +1,32 @@
-import '@/assets/css/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import PrimeVue from 'primevue/config'
 import { useAuth } from '@/composables/useAuth'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+import { klTheme } from '@/utils/theme'
+import 'vuetify/styles'
+import '@/assets/css/main.css'
 
-useAuth().initAuth()
+// create vuetify ui components
+const vuetify = createVuetify({
+  components,
+  directives,
+  theme: {
+    defaultTheme: 'klTheme',
+    themes: {
+      klTheme
+    }
+  }
+})
 
+// create app
 const app = createApp(App)
 app.use(router)
-app.use(PrimeVue)
+app.use(vuetify)
 app.mount('#app')
 
-window.addEventListener('beforeunload', () => {
-  sessionStorage.clear()
-  console.log('Window is unloading...')
-})
+// init auth
+useAuth().initAuth()
+useAuth().resetAuthOnWindowReload()

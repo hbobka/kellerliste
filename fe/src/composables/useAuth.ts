@@ -1,6 +1,6 @@
 import { readonly, ref } from 'vue'
 
-interface Auth {
+interface AuthState {
   authCode: string | null
   accessToken: string | null
   idToken: string | null
@@ -10,7 +10,7 @@ interface Auth {
   userEmail: string | null
 }
 
-const stateAuth = ref<Auth>({
+const stateAuth = ref<AuthState>({
   authCode: null,
   accessToken: null,
   idToken: null,
@@ -42,6 +42,15 @@ export const useAuth = () => {
    */
   const hasAuthSession = () => {
     return !!sessionStorage.getItem('session')
+  }
+
+  /**
+   * resets the authState when a user reloads the window
+   */
+  const resetAuthOnWindowReload = () => {
+    window.addEventListener('beforeunload', () => {
+      useAuth().resetAuth()
+    })
   }
 
   /**
@@ -238,6 +247,7 @@ export const useAuth = () => {
 
   return {
     initAuth,
+    resetAuthOnWindowReload,
     hasAuthSession,
     setAuthCode,
     getAuthTokens,

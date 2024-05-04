@@ -2,14 +2,13 @@
 import { computed } from 'vue'
 import { type PropType } from 'vue'
 import { useRouter } from 'vue-router'
+import type { Category, Status } from '@/utils/types';
 
-type TileStatus = 'success' | 'warning' | 'error' | 'new'
-export type TileCategory = 'beverages' | 'food' | 'tools' | 'medicine' | 'fire' | 'custom' | 'new'
 const props = defineProps({
   icon: String,
   text: String,
-  category: String as PropType<TileCategory>,
-  status: String as PropType<TileStatus>
+  category: String as PropType<Category>,
+  status: String as PropType<Status>
 })
 
 const textStyle = computed(() =>
