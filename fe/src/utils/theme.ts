@@ -1,6 +1,9 @@
 import { type ThemeDefinition } from 'vuetify'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
-export const klTheme: ThemeDefinition = {
+const klTheme: ThemeDefinition = {
   dark: false,
   colors: {
     'kl-black': '#343a40',
@@ -14,3 +17,17 @@ export const klTheme: ThemeDefinition = {
     success: '#4CAF50'
   }
 }
+
+export const vuetify = createVuetify({
+  components,
+  directives,
+  icons: {
+    defaultSet: 'mdi'
+  },
+  theme: {
+    defaultTheme: 'klTheme',
+    themes: {
+      klTheme
+    }
+  }
+})
