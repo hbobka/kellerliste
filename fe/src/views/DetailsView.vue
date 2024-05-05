@@ -22,31 +22,39 @@ const inventoryItems = computed(() => {
     : []
 })
 
-const showNewRow = ref(false)
-const addRow = () => {
-  showNewRow.value = true
-}
-const cancel = () => {
-  showNewRow.value = false
-}
+const showNewItem = ref(false)
 </script>
 
 <template>
   <main>
     <!-- toolbar -->
-    <InventoryToolbar v-if="category" :category="category" @add-row="addRow()" @cancel="cancel()" />
+    <InventoryToolbar
+      v-if="category"
+      :category="category"
+      :is-in-add-mode="!showNewItem"
+      @add-new-item="showNewItem = true"
+      @cancel="showNewItem = false"
+    />
 
-    <!-- add new row -->
-    <ul v-if="showNewRow">
+    <!-- new inventory item -->
+    <ul v-if="category && showNewItem">
       <li>
-        <InventoryItem current-name="" current-amount="" current-date="" />
+        <InventoryItem
+          current-name=""
+          current-amount=""
+          current-date=""
+          :isNewItem="showNewItem"
+          :category="category"
+          @new-item-created="showNewItem = false"
+        />
       </li>
     </ul>
 
-    <!-- list -->
-    <ul v-if="inventoryItems">
+    <!-- current inventory items -->
+    <ul v-if="category && inventoryItems">
       <li v-for="(item, index) in inventoryItems" :key="index">
         <InventoryItem
+          :category="category"
           :current-name="item.name"
           :current-amount="item.amount"
           :current-date="item.date"
