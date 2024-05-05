@@ -40,7 +40,7 @@ const router = useRouter()
       <!-- add -->
       <v-btn
         v-if="isInAddMode"
-        text="Add"
+        text="Create"
         color="kl-black"
         prepend-icon="mdi-plus"
         @click="emit('addNewItem')"
