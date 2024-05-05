@@ -26,10 +26,9 @@ const showNewItem = ref(false)
 </script>
 
 <template>
-  <main>
+  <main v-if="category">
     <!-- toolbar -->
     <InventoryToolbar
-      v-if="category"
       :category="category"
       :is-in-add-mode="!showNewItem"
       @add-new-item="showNewItem = true"
@@ -37,27 +36,26 @@ const showNewItem = ref(false)
     />
 
     <!-- new inventory item -->
-    <ul v-if="category && showNewItem">
-      <li>
-        <InventoryItem
-          current-name=""
-          current-amount=""
-          current-date=""
-          :isNewItem="showNewItem"
-          :category="category"
-          @new-item-created="showNewItem = false"
-        />
-      </li>
-    </ul>
+    <InventoryItem
+      v-if="showNewItem"
+      itemId=""
+      current-name=""
+      current-amount=""
+      current-date=""
+      :category="category"
+      :isNewItem="showNewItem"
+      @new-item-created="showNewItem = false"
+    />
 
     <!-- current inventory items -->
-    <ul v-if="category && inventoryItems">
+    <ul v-if="inventoryItems">
       <li v-for="(item, index) in inventoryItems" :key="index">
         <InventoryItem
-          :category="category"
+          :itemId="item.id"
           :current-name="item.name"
           :current-amount="item.amount"
           :current-date="item.date"
+          :category="category"
         />
       </li>
     </ul>
