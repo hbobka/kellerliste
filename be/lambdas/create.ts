@@ -12,11 +12,11 @@ export const handler = async (event: any = {}): Promise<any> => {
   }
 
   const item = typeof event.body == "object" ? event.body : JSON.parse(event.body);
-  const itemId = item.userEmail;
+  const userEmail = item.userEmail;
   const category = item.category;
   const newItem = item.item;
 
-  let inventory = await getCurrentInventory(itemId);
+  let inventory = await getCurrentInventory(userEmail);
 
   if (!inventory[category]) {
     inventory[category] = [];
@@ -26,7 +26,7 @@ export const handler = async (event: any = {}): Promise<any> => {
   const putParams = {
     TableName: TABLE_NAME,
     Item: {
-      [PRIMARY_KEY]: itemId,
+      [PRIMARY_KEY]: userEmail,
       inventory,
     },
   };
@@ -46,11 +46,11 @@ export const handler = async (event: any = {}): Promise<any> => {
   }
 };
 
-const getCurrentInventory = async (itemId: string) => {
+const getCurrentInventory = async (userEmail: string) => {
   const params = {
     TableName: TABLE_NAME,
     Key: {
-      [PRIMARY_KEY]: itemId,
+      [PRIMARY_KEY]: userEmail,
     },
   };
 
