@@ -44,10 +44,10 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       environment: {
         PRIMARY_KEY: "userEmail",
         TABLE_NAME: dynamoTable.tableName,
-        COGNITO_DOMAIN: process.env.COGNITO_DOMAIN || '',
-        COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID || '',
-        COGNITO_CLIENT_SECRET: process.env.COGNITO_CLIENT_SECRET || '',
-        COGNITO_REDIRECT_URI: process.env.COGNITO_REDIRECT_URI || ''
+        COGNITO_DOMAIN: process.env.COGNITO_DOMAIN || "",
+        COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID || "",
+        COGNITO_CLIENT_SECRET: process.env.COGNITO_CLIENT_SECRET || "",
+        COGNITO_REDIRECT_URI: process.env.COGNITO_REDIRECT_URI || "",
       },
       runtime: Runtime.NODEJS_LATEST,
     };
@@ -103,7 +103,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
     });
 
     // create a user Pool
-    const userPoolId = process.env.COGNITO_USER_POOL_ID || '';
+    const userPoolId = process.env.COGNITO_USER_POOL_ID || "";
     const userPool = UserPool.fromUserPoolId(this, "ImportedUserPool", userPoolId);
 
     // create an authorizer
@@ -123,7 +123,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
     };
 
     const items = kellerlisteApi.root.addResource("items");
-    items.addMethod("GET", getAllIntegration);
+    items.addMethod("GET", getAllIntegration, authParams);
     items.addMethod("POST", createOneIntegration, authParams);
     addCorsOptions(items);
 
