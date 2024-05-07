@@ -153,7 +153,7 @@ export function addCorsOptions(apiResource: IResource) {
               "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
             "method.response.header.Access-Control-Allow-Origin": "'*'",
             "method.response.header.Access-Control-Allow-Credentials": "'false'",
-            "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE'",
+            "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT, PATCH, POST,DELETE'",
           },
         },
       ],
