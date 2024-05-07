@@ -4,9 +4,9 @@ const cognitoDomain = process.env.COGNITO_DOMAIN || "";
 const redirectUri = process.env.COGNITO_REDIRECT_URI || "";
 
 /**
- * get auth token by code
+ * get auth tokens by code
  * @param event cotains the auth token in query param "code"
- * @returns
+ * @returns id_token, access_token, referesh_token
  */
 export const handler = async (event: any = {}): Promise<any> => {
   const authCode = event.queryStringParameters?.code;
@@ -16,10 +16,6 @@ export const handler = async (event: any = {}): Promise<any> => {
 
   const credentials = `${clientID}:${clientSecret}`;
   const base64Credentials = Buffer.from(credentials).toString("base64");
-  const headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Authentication: `Basic ${base64Credentials}`,
-  };
   const data = new URLSearchParams();
   data.append("grant_type", "authorization_code");
   data.append("client_id", clientID);
@@ -30,19 +26,19 @@ export const handler = async (event: any = {}): Promise<any> => {
   try {
     const response = await fetch(`${cognitoDomain}/oauth2/token`, {
       method: "POST",
-      headers,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authentication: `Basic ${base64Credentials}`,
+      },
       body: data,
     });
 
     if (response.ok) {
-      const json = (await response.json()) as any;
+      const json = await response.json();
 
       return {
         statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
+        headers: { "Access-Control-Allow-Origin": "*" },
         body: JSON.stringify(json),
       };
     }

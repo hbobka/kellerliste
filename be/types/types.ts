@@ -1,3 +1,5 @@
+export type Category = "beverages" | "food" | "tools" | "medicine" | "fire" | "money";
+
 export interface InventoryItem {
   id: string;
   name: string;
@@ -11,5 +13,5 @@ export interface Inventory {
   medicine: InventoryItem[];
   fire: InventoryItem[];
   tools: InventoryItem[];
-  custom: InventoryItem[];
+  money: InventoryItem[];
 }

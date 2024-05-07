@@ -1,9 +1,4 @@
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-import { DynamoDB } from "@aws-sdk/client-dynamodb";
-
-const TABLE_NAME = process.env.TABLE_NAME || "";
-
-const db = DynamoDBDocument.from(new DynamoDB());
+import { TABLE_NAME, db } from "./utils";
 
 export const handler = async (): Promise<any> => {
   const params = {
@@ -14,10 +9,7 @@ export const handler = async (): Promise<any> => {
     const response = await db.scan(params);
     return {
       statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-      },
+      headers: { "Access-Control-Allow-Origin": "*" },
       body: JSON.stringify(response.Items),
     };
   } catch (dbError) {

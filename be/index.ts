@@ -27,7 +27,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       tableName: "kellerliste",
 
       /**
-       *  The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
+       * The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
        * the new table, and it will remain in your account until manually deleted. By setting the policy to
        * DESTROY, cdk destroy will delete the table (even if it has data in it)
        */
@@ -62,7 +62,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       ...nodeJsFunctionProps,
     });
     const createOneLambda = new NodejsFunction(this, "createItemFunction", {
-      entry: join(__dirname, "lambdas", "create.ts"),
+      entry: join(__dirname, "lambdas", "create-one.ts"),
       ...nodeJsFunctionProps,
     });
     const updateOneLambda = new NodejsFunction(this, "updateItemFunction", {
@@ -74,13 +74,13 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       ...nodeJsFunctionProps,
     });
 
-    // authToken
+    // Create a Lambda function for getting auth tokens
     const getAuthTokenLambda = new NodejsFunction(this, "getAuthTokenFunction", {
       entry: join(__dirname, "lambdas", "get-auth-token.ts"),
       ...nodeJsFunctionProps,
     });
 
-    // Grant the Lambda function read access to the DynamoDB table
+    // Grant the Lambda functions read access to the DynamoDB table
     dynamoTable.grantReadWriteData(getAllLambda);
     dynamoTable.grantReadWriteData(getOneLambda);
     dynamoTable.grantReadWriteData(createOneLambda);
@@ -114,6 +114,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       identitySource: "method.request.header.Authorization",
       providerArns: [userPool.userPoolArn],
     });
+
     // construct auth params for the lambdas
     const authParams = {
       authorizationType: AuthorizationType.COGNITO,
@@ -122,6 +123,7 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       },
     };
 
+    // connect the lambdas as endpoints to the api gateway
     const items = kellerlisteApi.root.addResource("items");
     items.addMethod("GET", getAllIntegration, authParams);
     items.addMethod("POST", createOneIntegration, authParams);
@@ -153,7 +155,7 @@ export function addCorsOptions(apiResource: IResource) {
               "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
             "method.response.header.Access-Control-Allow-Origin": "'*'",
             "method.response.header.Access-Control-Allow-Credentials": "'false'",
-            "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT, PATCH, POST,DELETE'",
+            "method.response.header.Access-Control-Allow-Methods": "'OPTIONS, GET, PUT, PATCH, POST, DELETE'",
           },
         },
       ],

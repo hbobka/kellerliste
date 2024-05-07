@@ -1,15 +1,9 @@
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-import { DynamoDB } from "@aws-sdk/client-dynamodb";
-
-const TABLE_NAME = process.env.TABLE_NAME || "";
-const PRIMARY_KEY = process.env.PRIMARY_KEY || "";
-
-const db = DynamoDBDocument.from(new DynamoDB());
+import { PRIMARY_KEY, TABLE_NAME, db } from "./utils";
 
 export const handler = async (event: any = {}): Promise<any> => {
   const requestedItemId = event.pathParameters.id;
   if (!requestedItemId) {
-    return { statusCode: 400, body: `Error: You are missing the path parameter id` };
+    return { statusCode: 400, body: `missing itemId` };
   }
 
   const params = {
@@ -21,13 +15,11 @@ export const handler = async (event: any = {}): Promise<any> => {
 
   try {
     const response = await db.get(params);
+
     if (response.Item) {
       return {
         statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
+        headers: { "Access-Control-Allow-Origin": "*" },
         body: JSON.stringify(response.Item),
       };
     } else {
