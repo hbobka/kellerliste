@@ -12,7 +12,7 @@ export const handler = async (event: any = {}): Promise<any> => {
   }
 
   const item = typeof event.body == "object" ? event.body : JSON.parse(event.body);
-  const userEmail = item.userEmail;
+  const userEmail = event.requestContext.authorizer.claims.email;
   const category = item.category;
   const newItem = item.item;
 
