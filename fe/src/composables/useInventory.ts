@@ -8,7 +8,7 @@ interface InventoryState {
   medicine: InventoryItem[]
   fire: InventoryItem[]
   tools: InventoryItem[]
-  custom: InventoryItem[]
+  money: InventoryItem[]
 }
 
 const stateInventory = ref<InventoryState>({
@@ -17,7 +17,7 @@ const stateInventory = ref<InventoryState>({
   medicine: [],
   fire: [],
   tools: [],
-  custom: []
+  money: []
 })
 
 /**
@@ -126,7 +126,7 @@ export const useInventory = () => {
     stateInventory.value.medicine = inventory.medicine
     stateInventory.value.fire = inventory.fire
     stateInventory.value.tools = inventory.tools
-    stateInventory.value.custom = inventory.custom
+    stateInventory.value.money = inventory.money
   }
 
   return {

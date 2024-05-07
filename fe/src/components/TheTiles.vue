@@ -9,7 +9,7 @@ import TileItem from '@/components/TileItem.vue'
     <TileItem icon="mdi-tools" text="Werkzeug" status="error" category="tools"/>
     <TileItem icon="mdi-medical-bag" text="Medizin" status="error" category="medicine"/>
     <TileItem icon="mdi-fire" text="Feuermittel" status="warning" category="fire"/>
-    <TileItem icon="mdi-cash-100" text="Geld" status="new" category="money"/>
+    <TileItem icon="mdi-cash-100" text="Geld" status="success" category="money"/>
   </div>
 </template>
 

@@ -66,7 +66,7 @@ header * {
   cursor: pointer;
 }
 
-@media (max-width: 768px;) {
+@media (max-width: 768px) {
   .logo-wrapper p {
     display: none;
   }

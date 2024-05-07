@@ -12,16 +12,16 @@ const props = defineProps({
 })
 
 const textStyle = computed(() =>
-  props.status === 'success' || props.status === 'error' || props.status === 'new'
+  props.status === 'success' || props.status === 'error'
     ? 'color: var(--kl-white)'
     : 'color: var(--kl-black)'
 )
 const iconColor = computed(() =>
-  props.status === 'success' || props.status === 'error' || props.status === 'new'
+  props.status === 'success' || props.status === 'error' 
     ? 'var(--kl-white)'
     : 'var(--kl-black)'
 )
-const tileStyle = computed(() => (props.status !== 'new' ? props.status : 'dark'))
+const tileStyle = computed(() => props.status)
 
 const router = useRouter()
 const openDetails = () => {

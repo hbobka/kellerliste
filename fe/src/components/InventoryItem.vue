@@ -2,7 +2,7 @@
 import { ref, type PropType, watch } from 'vue'
 import { useInventory } from '@/composables/useInventory'
 import { v4 as uuidv4 } from 'uuid'
-import type { Category, InventoryItem } from '@/utils/types'
+import type { Category } from '@/utils/types'
 
 const props = defineProps({
   itemId: {
