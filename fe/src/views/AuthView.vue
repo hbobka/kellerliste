@@ -19,6 +19,8 @@ onMounted(async () => {
       await getUserInfo(tokens?.accessToken)
       isLoading.value = false
       router.push({ name: 'home' })
+    } else {
+      isLoading.value = false
     }
   }
 })
