@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { type PropType } from 'vue'
 import { useRouter } from 'vue-router'
-import type { Category, Status } from '@/utils/types';
+import type { Category, Status } from '@/utils/types'
 
 const props = defineProps({
   icon: String,
@@ -16,10 +16,10 @@ const textStyle = computed(() =>
     ? 'color: var(--kl-white)'
     : 'color: var(--kl-black)'
 )
-const iconStyle = computed(() =>
+const iconColor = computed(() =>
   props.status === 'success' || props.status === 'error' || props.status === 'new'
-    ? 'background: var(--kl-white)'
-    : 'background: var(--kl-black)'
+    ? 'var(--kl-white)'
+    : 'var(--kl-black)'
 )
 const tileStyle = computed(() => (props.status !== 'new' ? props.status : 'dark'))
 
@@ -31,7 +31,7 @@ const openDetails = () => {
 
 <template>
   <div class="tile-item__wrapper" :class="tileStyle" @click="openDetails">
-    <i :class="props.icon" :style="iconStyle"></i>
+    <v-icon class="icon" :icon="props.icon" :color="iconColor"></v-icon>
     <p :style="textStyle">{{ props.text }}</p>
   </div>
 </template>
@@ -50,6 +50,10 @@ const openDetails = () => {
 .tile-item__wrapper:hover {
   opacity: 0.9;
   cursor: pointer;
+}
+
+.icon {
+  font-size: 8rem;
 }
 
 .tile-item__wrapper p {

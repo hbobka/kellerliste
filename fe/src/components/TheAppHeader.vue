@@ -21,7 +21,7 @@ const isLoggedIn = computed(() => stateAuth.value.isLoggedIn)
     </div>
     <div v-if="isLoggedIn" class="user-wrapper">
       <span>{{ userName }} / <a href="#" @click="logout">logout</a></span>      
-      <i class="fa-user"></i>
+      <v-icon icon="mdi-account" size="x-large"></v-icon>
     </div>
   </header>
 </template>
