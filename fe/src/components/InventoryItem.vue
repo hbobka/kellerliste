@@ -2,7 +2,7 @@
 import { ref, type PropType, watch } from 'vue'
 import { useInventory } from '@/composables/useInventory'
 import { v4 as uuidv4 } from 'uuid'
-import type { Category } from '@/utils/types'
+import type { Category, InventoryItem } from '@/utils/types'
 
 const props = defineProps({
   itemId: {
@@ -32,7 +32,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  newItemCreated: []
+  itemCreated: []
+  itemUpdated: []
 }>()
 
 const form = ref()
@@ -48,7 +49,7 @@ watch([name, amount, date], () => {
 
 const validatorCount = (value: string) => value.length >= 3 || 'Min 3 characters'
 const validatorNumber = (value: string) => !isNaN(parseFloat(value)) || 'Must be a number'
-const { createInventoryItem, deleteInventoryItem } = useInventory()
+const { createInventoryItem, deleteInventoryItem, updateInventoryItem } = useInventory()
 
 const createItem = async () => {
   if (form.value) {
@@ -58,17 +59,24 @@ const createItem = async () => {
     await createInventoryItem(newItem, props.category)
     isLoading.value = false
 
-    emit('newItemCreated')
+    emit('itemCreated')
   }
 }
 
 const deleteItem = async (itemId: string) => {
   await deleteInventoryItem(itemId)
-  console.log('deleteItem', itemId)
 }
 
-const editItem = (itemId: string) => {
-  console.log('editItem', itemId)
+const updateItem = async (itemId: string) => {
+  if (form.value) {
+    const updatedItem = { id: itemId, name: name.value, amount: amount.value, date: date.value }
+
+    isLoading.value = true
+    await updateInventoryItem(itemId, updatedItem)
+    isLoading.value = false
+
+    emit('itemUpdated')
+  }
 }
 </script>
 
@@ -114,7 +122,7 @@ const editItem = (itemId: string) => {
             block
             prepend-icon="mdi-pencil"
             :disabled="!hasChanged"
-            @click="editItem(props.itemId)"
+            @click="updateItem(props.itemId)"
           />
           <v-btn
             color="kl-black"

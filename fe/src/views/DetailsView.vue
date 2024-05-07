@@ -44,7 +44,7 @@ const showNewItem = ref(false)
       current-date=""
       :category="category"
       :isNewItem="showNewItem"
-      @new-item-created="showNewItem = false"
+      @item-created="showNewItem = false"
     />
 
     <!-- current inventory items -->

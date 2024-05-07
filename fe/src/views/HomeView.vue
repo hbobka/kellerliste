@@ -4,12 +4,12 @@ import { useInventory } from '@/composables/useInventory'
 import { useUI } from '@/composables/useUI'
 import { onMounted } from 'vue'
 
-const { getInventory } = useInventory()
+const { getAllInventoryItems } = useInventory()
 const { stateUI, setWasInventoryFetched } = useUI()
 
 onMounted(async () => {
   if (!stateUI.value.wasInventoryFetched) {
-    await getInventory()
+    await getAllInventoryItems()
     setWasInventoryFetched(true)
   }
 })
