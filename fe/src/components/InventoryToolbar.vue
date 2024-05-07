@@ -35,7 +35,7 @@ const router = useRouter()
       />
 
       <!-- title -->
-      <h1>{{ props.category?.toUpperCase() }}</h1>
+      <h1 class="kl-category-title">{{ props.category?.toUpperCase() }}</h1>
 
       <!-- add -->
       <v-btn
@@ -56,3 +56,11 @@ const router = useRouter()
     </div>
   </v-container>
 </template>
+
+<style scoped>
+.kl-category-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 1rem;
+}
+</style>

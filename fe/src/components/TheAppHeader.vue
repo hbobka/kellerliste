@@ -20,7 +20,7 @@ const isLoggedIn = computed(() => stateAuth.value.isLoggedIn)
       <p>kellerliste</p>
     </div>
     <div v-if="isLoggedIn" class="user-wrapper">
-      <span>{{ userName }} / <a href="#" @click="logout">logout</a></span>      
+      <span>{{ userName }} / <a href="#" @click="logout">logout</a></span>
       <v-icon icon="mdi-account" size="x-large"></v-icon>
     </div>
   </header>
@@ -55,11 +55,20 @@ header * {
   margin-top: 0.4rem;
 }
 
-.user-wrapper span {  
+.user-wrapper {
+  margin-top: 1rem;
+}
+.user-wrapper span {
   margin: 0.25rem 1rem 0 0;
 }
 
 .logo-wrapper:hover {
   cursor: pointer;
+}
+
+@media (max-width: 768px;) {
+  .logo-wrapper p {
+    display: none;
+  }
 }
 </style>
