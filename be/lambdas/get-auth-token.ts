@@ -1,7 +1,4 @@
-const clientID = process.env.COGNITO_CLIENT_ID || "";
-const clientSecret = process.env.COGNITO_CLIENT_SECRET || "";
-const cognitoDomain = process.env.COGNITO_DOMAIN || "";
-const redirectUri = process.env.COGNITO_REDIRECT_URI || "";
+import { clientID, clientSecret, redirectUri, cognitoDomain } from "./utils";
 
 /**
  * get auth tokens by code
