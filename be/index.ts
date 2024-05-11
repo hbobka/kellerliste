@@ -14,17 +14,24 @@ import { NodejsFunction, NodejsFunctionProps } from "aws-cdk-lib/aws-lambda-node
 import { UserPool } from "aws-cdk-lib/aws-cognito";
 import { join } from "path";
 import "dotenv/config";
+import { DEPLOYMENT_STAGE } from "./types/types";
 
-export class ApiLambdaCrudDynamoDBStack extends Stack {
-  constructor(app: App, id: string) {
+export class KellerlisteStack extends Stack {
+  constructor(app: App, id: string, currentStage: DEPLOYMENT_STAGE) {
     super(app, id);
 
-    const dynamoTable = new Table(this, "kellerliste", {
+    // identify stage
+    const STAGE = currentStage;
+
+    // create table
+    const tableName = STAGE === "prod" ? "kellerliste" : "kellerliste-dev";
+    const tableId = STAGE === "prod" ? "kellerliste" : "kellerliste-dev";
+    const dynamoTable = new Table(this, tableId, {
       partitionKey: {
         name: "userEmail",
         type: AttributeType.STRING,
       },
-      tableName: "kellerliste",
+      tableName,
 
       /**
        * The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
@@ -34,6 +41,11 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
     });
 
+    // create function props
+    const cognitoDomain = (STAGE === "prod" ? process.env.COGNITO_DOMAIN : process.env.COGNITO_DOMAIN_DEV) || "";
+    const cognitoClientId = (STAGE === "prod" ? process.env.COGNITO_CLIENT_ID : process.env.COGNITO_CLIENT_ID_DEV) || "";
+    const cognitoClientSecret = (STAGE === "prod" ? process.env.COGNITO_CLIENT_SECRET : process.env.COGNITO_CLIENT_SECRET_DEV) || "";
+    const cognitoRedirectUri = (STAGE === "prod" ? process.env.COGNITO_REDIRECT_URI : process.env.COGNITO_REDIRECT_URI_DEV) || "";
     const nodeJsFunctionProps: NodejsFunctionProps = {
       bundling: {
         externalModules: [
@@ -44,12 +56,12 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
       environment: {
         PRIMARY_KEY: "userEmail",
         TABLE_NAME: dynamoTable.tableName,
-        COGNITO_DOMAIN: process.env.COGNITO_DOMAIN || "",
-        COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID || "",
-        COGNITO_CLIENT_SECRET: process.env.COGNITO_CLIENT_SECRET || "",
-        COGNITO_REDIRECT_URI: process.env.COGNITO_REDIRECT_URI || "",
+        COGNITO_DOMAIN: cognitoDomain,
+        COGNITO_CLIENT_ID: cognitoClientId,
+        COGNITO_CLIENT_SECRET: cognitoClientSecret,
+        COGNITO_REDIRECT_URI: cognitoRedirectUri,
       },
-      runtime: Runtime.NODEJS_LATEST,
+      runtime: Runtime.NODEJS_20_X,
     };
 
     // Create a Lambda function for each of the CRUD operations
@@ -95,15 +107,17 @@ export class ApiLambdaCrudDynamoDBStack extends Stack {
     const deleteOneIntegration = new LambdaIntegration(deleteOneLambda);
     const getAuthTokenIntegration = new LambdaIntegration(getAuthTokenLambda);
 
-    // Create an API Gateway resource for each of the CRUD operations
-    const kellerlisteApi = new RestApi(this, "kellerlisteApi", {
-      restApiName: "kellerliste service",
+    // create api gateway
+    const apigatewayId = STAGE === "prod" ? "kellerliste-api" : "kellerliste-api-dev";
+    const apigatewayName = STAGE === "prod" ? "kellerliste-api" : "kellerliste-api-dev";
+    const kellerlisteApi = new RestApi(this, apigatewayId, {
+      restApiName: apigatewayName,
       // In case you want to manage binary types, uncomment the following
       // binaryMediaTypes: ["*/*"],
     });
 
-    // create a user Pool
-    const userPoolId = process.env.COGNITO_USER_POOL_ID || "";
+    // import existing user pools
+    const userPoolId = (STAGE === "prod" ? process.env.COGNITO_USER_POOL_ID : process.env.COGNITO_USER_POOL_ID_DEV) || "";
     const userPool = UserPool.fromUserPoolId(this, "ImportedUserPool", userPoolId);
 
     // create an authorizer
@@ -151,8 +165,7 @@ export function addCorsOptions(apiResource: IResource) {
         {
           statusCode: "200",
           responseParameters: {
-            "method.response.header.Access-Control-Allow-Headers":
-              "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
             "method.response.header.Access-Control-Allow-Origin": "'*'",
             "method.response.header.Access-Control-Allow-Credentials": "'false'",
             "method.response.header.Access-Control-Allow-Methods": "'OPTIONS, GET, PUT, PATCH, POST, DELETE'",
@@ -182,5 +195,6 @@ export function addCorsOptions(apiResource: IResource) {
 }
 
 const app = new App();
-new ApiLambdaCrudDynamoDBStack(app, "ApiLambdaCrudDynamoDBExample");
+new KellerlisteStack(app, "kellerlisteStackDev", 'dev');
+new KellerlisteStack(app, "kellerlisteStackProd", 'prod');
 app.synth();

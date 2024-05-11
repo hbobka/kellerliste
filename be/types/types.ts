@@ -15,3 +15,5 @@ export interface Inventory {
   tools: InventoryItem[];
   money: InventoryItem[];
 }
+
+export type DEPLOYMENT_STAGE = "dev" | "prod";
