@@ -64,7 +64,11 @@ export class KellerlisteStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
     };
 
-    // Create a Lambda function for each of the CRUD operations
+    // lambdas for inventory CRUD operations
+    const initInventoryLambda = new NodejsFunction(this, "initInventoryFunction", {
+      entry: join(__dirname, "lambdas", "init-inventory.ts"),
+      ...nodeJsFunctionProps,
+    });
     const getOneLambda = new NodejsFunction(this, "getOneItemFunction", {
       entry: join(__dirname, "lambdas", "get-one.ts"),
       ...nodeJsFunctionProps,
@@ -86,7 +90,7 @@ export class KellerlisteStack extends Stack {
       ...nodeJsFunctionProps,
     });
 
-    // Create a Lambda function for getting auth tokens
+    // lambda for getting auth tokens
     const getAuthTokenLambda = new NodejsFunction(this, "getAuthTokenFunction", {
       entry: join(__dirname, "lambdas", "get-auth-token.ts"),
       ...nodeJsFunctionProps,
@@ -98,6 +102,7 @@ export class KellerlisteStack extends Stack {
     dynamoTable.grantReadWriteData(createOneLambda);
     dynamoTable.grantReadWriteData(updateOneLambda);
     dynamoTable.grantReadWriteData(deleteOneLambda);
+    dynamoTable.grantReadWriteData(initInventoryLambda);
 
     // Integrate the Lambda functions with the API Gateway resource
     const getAllIntegration = new LambdaIntegration(getAllLambda);
