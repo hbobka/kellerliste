@@ -1,4 +1,4 @@
-import { App, Stack, RemovalPolicy } from "aws-cdk-lib";
+import { App, Stack } from "aws-cdk-lib";
 import {
   IResource,
   LambdaIntegration,
@@ -31,14 +31,7 @@ export class KellerlisteStack extends Stack {
         name: "userEmail",
         type: AttributeType.STRING,
       },
-      tableName,
-
-      /**
-       * The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
-       * the new table, and it will remain in your account until manually deleted. By setting the policy to
-       * DESTROY, cdk destroy will delete the table (even if it has data in it)
-       */
-      removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
+      tableName
     });
 
     // create function props
@@ -89,7 +82,7 @@ export class KellerlisteStack extends Stack {
       entry: join(__dirname, "lambdas", "delete-one.ts"),
       ...nodeJsFunctionProps,
     });
-
+    
     // lambda for getting auth tokens
     const getAuthTokenLambda = new NodejsFunction(this, "getAuthTokenFunction", {
       entry: join(__dirname, "lambdas", "get-auth-token.ts"),

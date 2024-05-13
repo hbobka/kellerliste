@@ -1,6 +1,8 @@
 # kellerliste be
 
-APIGateway with CORS enabled, pointing to five Lambdas executing CRUD operations on a single DynamoDB table.
+- APIGateway with CORS
+- Lambdas executing CRUD operations on DynamoDB
+- Cognio for authentication / authorization
 
 ## Build
 
@@ -20,19 +22,6 @@ Run `cdk bootstrap` if you deploy the first time.
 Run `cdk deploy`. This will deploy / redeploy your Stack to your AWS Account.
 
 After the deployment you will see the API's URL, which represents the url you can then use.
-
-## The Component Structure
-
-The whole component contains:
-
-- An API, with CORS enabled on all HTTP Methods. (Use with caution, for production apps you will want to enable only a certain domain origin to be able to query your API.)
-- Lambda pointing to `lambdas/create.ts`, containing code for __storing__ an item  into the DynamoDB table.
-- Lambda pointing to `lambdas/delete-one.ts`, containing code for __deleting__ an item from the DynamoDB table.
-- Lambda pointing to `lambdas/get-all.ts`, containing code for __getting all items__ from the DynamoDB table.
-- Lambda pointing to `lambdas/get-one.ts`, containing code for __getting an item__ from the DynamoDB table.
-- Lambda pointing to `lambdas/update-one.ts`, containing code for __updating an item__ in the DynamoDB table.
-- A DynamoDB table `items` that stores the data.
-- Five `LambdaIntegrations` that connect these Lambdas to the API.
 
 ## CDK Toolkit
 
